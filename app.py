@@ -4,7 +4,6 @@ from flask_jwt import JWT, jwt_required
 from security import authenticate, identity
 from resources.student_resource import StudentResource
 
-
 app = Flask(__name__)
 app.secret_key = 'raphael'
 api = Api(app)
