@@ -12,4 +12,5 @@ jwt = JWT(app, authenticate, identity)
 
 api.add_resource(StudentResource, '/student/<string:name>')
 
-app.run(port=5000, debug=True)
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
