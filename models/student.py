@@ -1,3 +1,5 @@
+from pymongo import MongoClient
+
 students = []
 
 class Student():
@@ -12,10 +14,15 @@ class Student():
 
     @classmethod
     def add(cls, name):
+        client = MongoClient('localhost', 27017)
+        database = client.testing_python
+
         item = next(filter(lambda x: x['name'] == name, students), None)
         if item:
             return None
 
         student = {"name": name}
-        students.append(student)
-        return student
+        student_colelction = database.students
+        student_id = student_colelction.insert_one(student).inserted_id
+
+        return {"student_id": str(student_id)}

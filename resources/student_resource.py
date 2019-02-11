@@ -14,5 +14,6 @@ class StudentResource(Resource):
         parser.add_argument('price', type=float, required=True, help='This field is required!')
         data = parser.parse_args()
 
-        student = Student.add(name);
-        return student, 201 if student else 400
+        student_id = Student.add(name)
+
+        return student_id, 201 if student_id else 400
