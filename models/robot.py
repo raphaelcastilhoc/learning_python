@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from bson.json_util import dumps
+from bson.objectid import ObjectId
 
 class Robot():
     def __init__(self, name):
@@ -20,8 +20,8 @@ class Robot():
         return robots
 
     @classmethod
-    def get_by_name(cls, name):
-        robot = cls.get_collection().findOne({ "name" : name })
+    def get_by_id(cls, robot_id):
+        robot = cls.get_collection().find_one({"_id": ObjectId(robot_id)})
         return robot
 
     @classmethod

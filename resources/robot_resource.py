@@ -3,7 +3,15 @@ from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 from models.robot import Robot
 
-class RobotResource(Resource):
+class RobotApi(Resource):
+    @jwt_required()
+    def get(self, robot_id):
+        robot = Robot.get_by_id(robot_id)
+        parsed_robot = Robot(robot['name']).json()
+
+        return parsed_robot, 200 if parsed_robot else 402
+
+class RobotListApi(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('name',
                         required=True,
