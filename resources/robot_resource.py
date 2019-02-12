@@ -11,6 +11,11 @@ class RobotApi(Resource):
 
         return parsed_robot, 200 if parsed_robot else 402
 
+    @jwt_required()
+    def delete(self, robot_id):
+        Robot.delete(robot_id)
+        return 200
+
 class RobotListApi(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('name',

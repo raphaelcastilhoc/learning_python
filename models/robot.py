@@ -31,4 +31,10 @@ class Robot():
 
         return str(robot_id)
 
+    @classmethod
+    def delete(cls, robot_id):
+        robots = cls.get_collection()
+        robots.delete_one({"_id": ObjectId(robot_id)})
+
+
 
