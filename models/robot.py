@@ -32,6 +32,17 @@ class Robot():
         return str(robot_id)
 
     @classmethod
+    def update(cls, robot_id, updated_robot):
+        robots = cls.get_collection()
+
+        identifier = { "_id": ObjectId(robot_id) }
+        updates = { "$set": { "name": updated_robot.name } }
+
+        robot = robots.update_one(identifier, updates)
+
+        return robot
+
+    @classmethod
     def delete(cls, robot_id):
         robots = cls.get_collection()
         robots.delete_one({"_id": ObjectId(robot_id)})

@@ -4,6 +4,12 @@ from flask_jwt import JWT, jwt_required
 from models.robot import Robot
 
 class RobotApi(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('name',
+                        required=True,
+                        help="This fieldis required!"
+                        )
+
     @jwt_required()
     def get(self, robot_id):
         robot = Robot.get_by_id(robot_id)
@@ -15,6 +21,13 @@ class RobotApi(Resource):
     def delete(self, robot_id):
         Robot.delete(robot_id)
         return 200
+
+    @jwt_required()
+    def put(self, robot_id):
+        robot = self.parser.parse_args()
+        updated_robot = Robot.update(robot_id, robot)
+
+        return robot_id, 200 if updated_robot.modified_count > 0 else 402
 
 class RobotListApi(Resource):
     parser = reqparse.RequestParser()
@@ -33,7 +46,6 @@ class RobotListApi(Resource):
     @jwt_required()
     def post(self):
         robot = self.parser.parse_args()
-
         robot_id = Robot.add(robot)
 
         return robot_id, 201 if robot_id else 400
